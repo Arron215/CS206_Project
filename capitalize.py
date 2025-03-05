@@ -26,11 +26,22 @@ def capitalize_no_string(sentence):
   return print(lower_to_upper.get(sentence[0], sentence[0]) + sentence[1:])
 
 import random
+import sys
+from string import ascii_lowercase, ascii_uppercase
 
-test_set_success = ["i am a cherry pie", "happy and i know it", "where is the candy", "can i have some", "abcde", "efgh", "poppyseed", ascii_lowercase, ascii_uppercase]
+test_set_success = ["i am a cherry pie", "happy and i know it", "where is the candy", "can i have some", "abcde", "efgh", "poppyseed"]
+for i in ascii_lowercase:
+  test_set_success.append(i)
+for i in ascii_uppercase:
+  test_set_success.append(i)
+
 test_set_fail = ["12345a", "$avc", "", ",abc", ".baec", " "]
-test_set = ([test_set_success, test_set_fail], k=(sizeof(test_set_success)+sizeof(test_set_fail)))
 
-for i in test_set
-  print(test_set[i])
-  
+test_set = test_set_success
+test_set.extend(test_set_fail)
+print(test_set)
+print("\n")
+
+random.shuffle(test_set)
+print(test_set)
+
