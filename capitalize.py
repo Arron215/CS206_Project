@@ -27,18 +27,15 @@ def capitalize_no_string(sentence):
 
 import random
 import sys
+import string
 from string import ascii_lowercase, ascii_uppercase
 
 test_set_success = ["i am a cherry pie", "happy and i know it", "where is the candy", "can i have some", "abcde", "efgh", "poppyseed"]
-for i in ascii_lowercase:
-  test_set_success.append(i)
-for i in ascii_uppercase:
-  test_set_success.append(i)
-
 test_set_fail = ["12345a", "$avc", "", ",abc", ".baec", " "]
 
 test_set = test_set_success
 test_set.extend(test_set_fail)
+test_set.extend(string.printable)
 print(test_set)
 print("\n")
 
