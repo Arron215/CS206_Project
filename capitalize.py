@@ -13,7 +13,7 @@ def capitalize(sentence: str) -> str:
   lower_to_upper = dict(zip(ascii_lowercase, ascii_uppercase))
   return lower_to_upper.get(sentence[0], sentence[0]) + sentence[1:]
 
-def capitalize_no_string(sentence: str) -> none:
+def capitalize_no_string(sentence):
   from string import ascii_lowercase, ascii_uppercase
 
   sentence -> (str)
