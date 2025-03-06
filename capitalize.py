@@ -54,8 +54,7 @@ def test_set_cap
   test_set = test_set_success
   test_set.extend(test_set_fail)
   test_set.extend(string.printable)
-  return test_set
 
-random.shuffle(test_set)
-print(test_set)
+  random.shuffle(test_set)
+  return test_set
 
