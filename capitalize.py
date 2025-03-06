@@ -7,15 +7,15 @@ def capitalize(sentence: str) -> str:
   if not sentence:
     return ""
 
-  if ((sentence[0] in string.digits) or (sentence[0] in string.hexdigits) or (sentence[0] in string.octdigits))
+  if (sentence[0] in string.digits) or (sentence[0] in string.hexdigits) or (sentence[0] in string.octdigits):
     print("is digit")
     return ""
 
-  if sentence[0] in string.punctuation
+  if sentence[0] in string.punctuation:
     print("is punctuation")
     return ""
 
-  if sentence[0] in string.whitespace
+  if sentence[0] in string.whitespace:
     print("is whitespace")
     return ""
           
