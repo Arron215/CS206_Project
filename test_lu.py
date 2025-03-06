@@ -39,3 +39,11 @@ def ddmin_test(test: Callable, inp: Sequence[Any], *test_args: Any) -> Sequence:
             n = min(n * 2, len(inp))
 
     return inp, list
+
+import capitalize
+
+test = test_set_cap()
+list = []
+list = ddmin(capitalize)
+print(list[0])
+print(list[1])
