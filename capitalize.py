@@ -3,6 +3,8 @@
 
 def capitalize(sentence: str) -> str:
   import string
+
+  #Add options(?) for turning on and off the checks
   
   if not sentence:
     return ""
@@ -25,11 +27,17 @@ def capitalize(sentence: str) -> str:
 def capitalize_no_string(sentence):
   import string
   
-  if not sentence:
+  if (sentence[0] in string.digits) or (sentence[0] in string.hexdigits) or (sentence[0] in string.octdigits):
+    print("is digit")
     return ""
 
-  #check if we are trying to capitalize a number
-  #if 
+  if sentence[0] in string.punctuation:
+    print("is punctuation")
+    return ""
+
+  if sentence[0] in string.whitespace:
+    print("is whitespace")
+    return ""
   
   lower_to_upper = dict(zip(ascii_lowercase, ascii_uppercase))
   return print(lower_to_upper.get(sentence[0], sentence[0]) + sentence[1:])
