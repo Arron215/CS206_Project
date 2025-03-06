@@ -42,7 +42,7 @@ def capitalize_no_string(sentence):
   lower_to_upper = dict(zip(ascii_lowercase, ascii_uppercase))
   return print(lower_to_upper.get(sentence[0], sentence[0]) + sentence[1:])
 
-def test_set_cap
+def test_set_cap():
   import random
   import sys
   import string
