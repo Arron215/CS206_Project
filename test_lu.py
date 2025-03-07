@@ -31,7 +31,7 @@ def ddmin(test: Callable, inp: Sequence[Any], *test_args: Any) -> Sequence:
             complement: Sequence[Any] = \
                 inp[:start] + inp[start + subset_length:]
             
-            list.append(complement) #Only add things that we test into the list, everything else doesn't matter (?)
+            list.append(complement) #Only add things that we test into the list, everything else doesn't matter 
 
             if test(complement, *test_args) == FAIL:
                 # Continue with reduced input
@@ -56,7 +56,7 @@ def ddmin_random(test: Callable, inp: Sequence[Any], *test_args: Any) -> Sequenc
     Reduce `inp` to a 1-minimal failing subset, using the outcome
     of `test(inp, *test_args)`, which should be `PASS`, `FAIL`, or `UNRESOLVED`.
     """
-    import random
+    import random, sys
 
     PASS = 'PASS'
     FAIL = 'FAIL'
@@ -68,7 +68,8 @@ def ddmin_random(test: Callable, inp: Sequence[Any], *test_args: Any) -> Sequenc
     list = [] #Records all tested sets
     tests = 0 #Records the # of tests run
 
-    print(random.randint(2, inp.length()))
+    rand = random.randint(2, len(inp))
+    n = rand
 
     while len(inp) >= 2:
         tests = tests + 1
@@ -81,7 +82,7 @@ def ddmin_random(test: Callable, inp: Sequence[Any], *test_args: Any) -> Sequenc
             complement: Sequence[Any] = \
                 inp[:start] + inp[start + subset_length:]
             
-            list.append(complement) #Only add things that we test into the list, everything else doesn't matter (?)
+            list.append(complement) #Only add things that we test into the list, everything else doesn't matter 
 
             if test(complement, *test_args) == FAIL:
                 # Continue with reduced input
@@ -101,14 +102,20 @@ def ddmin_random(test: Callable, inp: Sequence[Any], *test_args: Any) -> Sequenc
 
     return inp, list, tests
 
-from capitalize import test_set_cap, capitalize
+from sanitize import test_set_cap, sanitize
 
 test = test_set_cap()
 list = []
-list = ddmin(capitalize, test)
-print("minimum: ", list[0])
-print("tests: ", list[2])
-for i in list[1]:
-    print(i)
+for x in test:
+    print("\ninput: ", x)
+    list = ddmin(sanitize, x)
+    print("ddmin")
+    print("minimum: ", list[0])
+    print("tests: ", list[2])
+    print(list[1])
 
-
+    list = ddmin_random(sanitize, x)
+    print("\nrand")
+    print("minimum: ", list[0])
+    print("tests: ", list[2])
+    print(list[1])
