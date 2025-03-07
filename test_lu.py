@@ -56,6 +56,7 @@ def ddmin_random(test: Callable, inp: Sequence[Any], *test_args: Any) -> Sequenc
     Reduce `inp` to a 1-minimal failing subset, using the outcome
     of `test(inp, *test_args)`, which should be `PASS`, `FAIL`, or `UNRESOLVED`.
     """
+    import random
 
     PASS = 'PASS'
     FAIL = 'FAIL'
@@ -66,6 +67,8 @@ def ddmin_random(test: Callable, inp: Sequence[Any], *test_args: Any) -> Sequenc
     n = 2  # Initial granularity
     list = [] #Records all tested sets
     tests = 0 #Records the # of tests run
+
+    print(random.randint(2, inp.length()))
 
     while len(inp) >= 2:
         tests = tests + 1
