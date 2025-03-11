@@ -118,11 +118,11 @@ def ddmin_hybrid(test: Callable, inp: Sequence[Any], *test_args: Any) -> Sequenc
 
     tests = 0 #Records the # of tests run
     rand = random.randint(2, len(inp)) 
-    n = rand #Initial granularity
+    n = 2
 
     while len(inp) >= 2:
         tests = tests + 1
-        start: int = 0  # Where to start the next subset
+        start: int = random.randint(1, len(inp)-1)  # Where to start the next subset
         subset_length: int = int(len(inp) / n)
         some_complement_is_failing: bool = False
 
@@ -175,8 +175,17 @@ for x in test:
     ddmin_random_test = ddmin_random_test + list[2]
     print(list[1])
 
+    list = ddmin_hybrid(sanitize, x)
+    print("\nhybrid")
+    print("minimum: ", list[0])
+    print("tests: ", list[2])
+    ddmin_hybrid_test = ddmin_hybrid_test + list[2]
+    print(list[1])
+
 ddmin_test = ddmin_test/len(test)
 ddmin_random_test = ddmin_random_test/len(test)
+ddmin_hybrid_test = ddmin_hybrid_test/len(test)
 
 print("\nAvg # of tests ddmin: ", ddmin_test)
 print("Avg # of tests ddmin_random: ", ddmin_random_test)
+print("Avg # of tests ddmin_hybrid: ", ddmin_hybrid_test)
