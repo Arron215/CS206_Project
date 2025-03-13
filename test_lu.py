@@ -200,13 +200,23 @@ def ddmin_alt(test: Callable, inp: Sequence[Any], *test_args: Any) -> Sequence:
 
         while start < len(inp):
             # Cut out inp[start:(start + subset_length)]
-            complement: Sequence[Any] = \
-                inp[:start] + inp[start + subset_length:]
+            if ((start+subset_length) > len(inp)):
+                remaining = (start+subset_length)
+                complement: Sequence[Any] = \
+                    inp[start:] + inp[0:remaining]
+            else:
+                complement: Sequence[Any] = \
+                    inp[:start] + inp[start + subset_length:]            
             list.append(complement) #Only add things that we test into the list, everything else doesn't matter
 
             if not revert:
-                c2: Sequence[Any] = \
-                    inp[:start] + inp[start + subset_length:]
+                if ((start+subset_length) > len(inp)):
+                    remaining = (start+subset_length)
+                    c2: Sequence[Any] = \
+                        inp[:start] + inp[start + subset_length:]
+                else:
+                    c2: Sequence[Any] = \
+                        inp[:start] + inp[start + subset_length:]
                 if (complement in tested) | (c2 in tested):
                     break
                 test_cmp = test(complement, *test_args)
