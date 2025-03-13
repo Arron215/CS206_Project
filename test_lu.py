@@ -169,93 +169,51 @@ def ddmin_hybrid(test: Callable, inp: Sequence[Any], *test_args: Any) -> Sequenc
 # We continue this process until further splitting is not possible.  
 # At that point, we switch back to the original ddmin.  
 def ddmin_alt(test: Callable, inp: Sequence[Any], *test_args: Any) -> Sequence:
-    """
-    Reduce `inp` to a 1-minimal failing subset, using the outcome
-    of `test(inp, *test_args)`, which should be `PASS`, `FAIL`, or `UNRESOLVED`.
-    """
-    import random, sys
+    import random
 
     PASS = 'PASS'
     FAIL = 'FAIL'
-    UNRESOLVED = 'UNRESOLVED'
 
-    list = [] #Records all tested sets
-    list.append(inp)
-    max_tests = len(inp)
-    revert = 0
-    tested = []
-    assert test(inp, *test_args) != PASS
+    tested = []  # Records tested subsets
+    assert test(inp, *test_args) == FAIL  # Input must start as FAIL
 
-    tests = 0 #Records the # of tests run
-    n = 2
+    trial = 0 # counter for tried random points 
+    while True:
+        if len(inp) < 2:
+            break  # No further splitting possible
 
-    while len(inp) >= 2:
-        tests = tests + 1
-        if not revert:
-            start: int = random.randint(1, len(inp)-1)  # Where to start the next subset
-        else: 
-            start: int = 0
-        subset_length: int = int(len(inp) / n)
-        some_complement_is_failing: bool = False
+        start = random.randint(1, len(inp) - 1)  # Random split point
 
-        while start < len(inp):
-            # Cut out inp[start:(start + subset_length)]
-            if ((start+subset_length) > len(inp)):
-                remaining = (start+subset_length)
-                complement: Sequence[Any] = \
-                    inp[start:] + inp[0:remaining]
-            else:
-                complement: Sequence[Any] = \
-                    inp[:start] + inp[start + subset_length:]            
-            list.append(complement) #Only add things that we test into the list, everything else doesn't matter
+        # Split the input into two parts
+        part1 = inp[:start]
+        part2 = inp[start:]
 
-            if not revert:
-                if ((start+subset_length) > len(inp)):
-                    remaining = (start+subset_length)
-                    c2: Sequence[Any] = \
-                        inp[:start] + inp[start + subset_length:]
-                else:
-                    c2: Sequence[Any] = \
-                        inp[:start] + inp[start + subset_length:]
-                if (complement in tested) | (c2 in tested):
-                    break
-                test_cmp = test(complement, *test_args)
-                test_inp = test(c2 ,*test_args) 
-                tested.append(complement)
-                tested.append(c2)
+        # Avoid redundant tests
+        if part1 in tested and part2 in tested:
+            if trial == len(inp):
+                break  # All possible points are tried, no further splitting is possible
+            continue
 
-                if (test_cmp != test_inp):
-                    revert = 1
-                    if(test_cmp == FAIL):
-                        inp = test_cmp
-                        break
-                    else: 
-                        inp = test_inp
-                        break
-                else:
-                    if (tests == max_tests): #Done with all possible tests, no hit
-                        revert = 1
-                    break
+        trial += 1
+        tested.append(part1)
+        tested.append(part2)
 
-            elif (revert):
-                if test(complement, *test_args) == FAIL:
-                    # Continue with reduced input
-                    inp = complement
-                    n = max(n - 1, 2)
-                    some_complement_is_failing = True
-                    break
-            
+        # Test both parts
+        test_p1 = test(part1, *test_args)
+        test_p2 = test(part2, *test_args)
 
-            # Continue with next subset
-            start += subset_length
+        if test_p1 == FAIL and test_p2 != FAIL:
+            inp = part1  # Continue with the failing part
+            trial = 0  # Reset the trial counter
+        elif test_p2 == FAIL and test_p1 != FAIL:
+            inp = part2  # Continue with the failing part
+            trial = 0  # Reset the trial counter
+        else:
+            # Neither is isolated or both fail, try another split point
+            continue
 
-        if not some_complement_is_failing:
-            # Increase granularity
-            if n == len(inp):
-                break
-            n = min(n * 2, len(inp))
-        
-    return inp, list, tests
+    return ddmin(test, inp, *test_args) # fall back to original delta debugging algorithm at the end.
+
 
 from sanitize import test_set_cap, sanitize
 
