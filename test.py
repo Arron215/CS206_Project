@@ -1,9 +1,6 @@
-def test()
+def test(test)
     from sanitize import test_set_cap, sanitize
-
-    test = test_set_cap()
-    test1 = test[0]
-    test2 = test[1]
+    
     list = []
     ddmin_test = 0
     test_size = 0

@@ -28,6 +28,30 @@ def sanitize(sentence: str) -> str:
 
   return 'PASS'
 
+def sanitize_sparse(sentence: str) -> str:
+  from string import ascii_lowercase, ascii_uppercase
+  import string
+
+  fail = 0
+
+  for i in sentence:
+    if not i:
+      return 'FAIL'
+
+    if i in string.punctuation:
+      fail = fail + 3
+    
+    elif i in string.ascii_letters:
+      fail = fail + 1
+
+    elif i in string.digits:
+      fail = fail - 1
+    
+    if (fail >= 3):
+      return 'FAIL'
+
+  return 'PASS'
+
 def test_set_cap():
   import random
   import sys

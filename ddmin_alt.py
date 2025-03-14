@@ -14,6 +14,7 @@ def ddmin_alt(test: Callable, inp: Sequence[Any], *test_args: Any) -> Sequence:
 
     list = [] #Records all tested sets
     list.append(inp)
+    max_tests = len(inp)
     revert = 0
     tested = []
     assert test(inp, *test_args) != PASS
@@ -32,13 +33,23 @@ def ddmin_alt(test: Callable, inp: Sequence[Any], *test_args: Any) -> Sequence:
 
         while start < len(inp):
             # Cut out inp[start:(start + subset_length)]
-            complement: Sequence[Any] = \
-                inp[:start] + inp[start + subset_length:]
+            if ((start+subset_length) > len(inp)):
+                remaining = (start+subset_length)
+                complement: Sequence[Any] = \
+                    inp[start:] + inp[0:remaining]
+            else:
+                complement: Sequence[Any] = \
+                    inp[:start] + inp[start + subset_length:]            
             list.append(complement) #Only add things that we test into the list, everything else doesn't matter
 
             if not revert:
-                c2: Sequence[Any] = \
-                    inp[:start] + inp[start + subset_length:]
+                if ((start+subset_length) > len(inp)):
+                    remaining = (start+subset_length)
+                    c2: Sequence[Any] = \
+                        inp[:start] + inp[start + subset_length:]
+                else:
+                    c2: Sequence[Any] = \
+                        inp[:start] + inp[start + subset_length:]
                 if (complement in tested) | (c2 in tested):
                     break
                 test_cmp = test(complement, *test_args)
@@ -55,34 +66,30 @@ def ddmin_alt(test: Callable, inp: Sequence[Any], *test_args: Any) -> Sequence:
                         inp = test_inp
                         break
                 else:
-                    if (tests == len(inp)): #Done with all possibel tests, no hit
+                    if (tests == max_tests): #Done with all possible tests, no hit
                         revert = 1
-                        break
-                    else:
-                        break
+                    break
 
-            else:
-                if (revert):
-                    if test(complement, *test_args) == FAIL:
-                        # Continue with reduced input
-                        inp = complement
-                        n = max(n - 1, 2)
-                        some_complement_is_failing = True
-                        break
+            elif (revert):
+                if test(complement, *test_args) == FAIL:
+                    # Continue with reduced input
+                    inp = complement
+                    n = max(n - 1, 2)
+                    some_complement_is_failing = True
+                    break
             
 
             # Continue with next subset
             start += subset_length
 
-        if revert:
-            if not some_complement_is_failing:
-                # Increase granularity
-                if n == len(inp):
-                    break
-                n = min(n * 2, len(inp))
+        if not some_complement_is_failing:
+            # Increase granularity
+            if n == len(inp):
+                break
+            n = min(n * 2, len(inp))
         
     return inp, list, tests
-
+    
 from sanitize import test_set_cap, sanitize
 
 test = test_set_cap()

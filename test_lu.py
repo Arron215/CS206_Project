@@ -78,13 +78,8 @@ def ddmin_random(test: Callable, inp: Sequence[Any], *test_args: Any) -> Sequenc
 
         while start < len(inp):
             # Cut out inp[start:(start + subset_length)]
-            if ((start+subset_length) > len(inp)):
-                remaining = (start+subset_length)
-                complement: Sequence[Any] = \
-                    inp[start:] + inp[0:remaining]
-            else:
-                complement: Sequence[Any] = \
-                    inp[:start] + inp[start + subset_length:]
+            complement: Sequence[Any] = \
+                inp[:start] + inp[start + subset_length:]
             
             list.append(complement) #Only add things that we test into the list, everything else doesn't matter 
 
@@ -119,7 +114,7 @@ def ddmin_hybrid(test: Callable, inp: Sequence[Any], *test_args: Any) -> Sequenc
 
     list = [] #Records all tested sets
     list.append(inp)
-    revert = len(inp)/2
+    revert = 0
     assert test(inp, *test_args) != PASS
 
     tests = 0 #Records the # of tests run
@@ -128,7 +123,7 @@ def ddmin_hybrid(test: Callable, inp: Sequence[Any], *test_args: Any) -> Sequenc
 
     while len(inp) >= 2:
         tests = tests + 1
-        if (len(inp) >= revert):
+        if (revert):
             start: int = random.randint(1, len(inp)-1)  # Where to start the next subset
         else: 
             start: int = 0
@@ -137,13 +132,8 @@ def ddmin_hybrid(test: Callable, inp: Sequence[Any], *test_args: Any) -> Sequenc
 
         while start < len(inp):
             # Cut out inp[start:(start + subset_length)]
-            if ((start+subset_length) > len(inp)):
-                remaining = (start+subset_length)
-                complement: Sequence[Any] = \
-                    inp[start:] + inp[0:remaining]
-            else:
-                complement: Sequence[Any] = \
-                    inp[:start] + inp[start + subset_length:]
+            complement: Sequence[Any] = \
+                inp[:start] + inp[start + subset_length:]
             
             list.append(complement) #Only add things that we test into the list, everything else doesn't matter 
 
@@ -200,23 +190,13 @@ def ddmin_alt(test: Callable, inp: Sequence[Any], *test_args: Any) -> Sequence:
 
         while start < len(inp):
             # Cut out inp[start:(start + subset_length)]
-            if ((start+subset_length) > len(inp)):
-                remaining = (start+subset_length)
-                complement: Sequence[Any] = \
-                    inp[start:] + inp[0:remaining]
-            else:
-                complement: Sequence[Any] = \
-                    inp[:start] + inp[start + subset_length:]            
+            complement: Sequence[Any] = \
+                inp[:start] + inp[start + subset_length:]            
             list.append(complement) #Only add things that we test into the list, everything else doesn't matter
 
             if not revert:
-                if ((start+subset_length) > len(inp)):
-                    remaining = (start+subset_length)
-                    c2: Sequence[Any] = \
-                        inp[:start] + inp[start + subset_length:]
-                else:
-                    c2: Sequence[Any] = \
-                        inp[:start] + inp[start + subset_length:]
+                c2: Sequence[Any] = \
+                    inp[:start] + inp[start + subset_length:]
                 if (complement in tested) | (c2 in tested):
                     break
                 test_cmp = test(complement, *test_args)
@@ -257,7 +237,7 @@ def ddmin_alt(test: Callable, inp: Sequence[Any], *test_args: Any) -> Sequence:
         
     return inp, list, tests
 
-from sanitize import test_set_cap, sanitize
+from sanitize import test_set_cap, sanitize, sanitize_sparse
 
 test = test_set_cap()
 test1 = test[0]
@@ -279,7 +259,7 @@ for x in test1:
     ddmin_test = ddmin_test + list[2]
     #print(list[1])
 
-    list = ddmin_random(sanitize, x)
+    list = ddmin_random(sanitizee, x)
     #print("\nrand")
     #print("minimum: ", list[0])
     #print("tests: ", list[2])
@@ -357,7 +337,7 @@ ddmin_hybrid_test = ddmin_hybrid_test/len(test2)
 ddmin_alt_test = ddmin_alt_test/len(test2)
 test_size = test_size/len(test2)
 
-print("test_set_sparse")
+print("\ntest_set_sparse")
 print("Avg # of tests ddmin: ", ddmin_test)
 print("Avg # of tests ddmin_random: ", ddmin_random_test)
 print("Avg # of tests ddmin_hybrid: ", ddmin_hybrid_test)
