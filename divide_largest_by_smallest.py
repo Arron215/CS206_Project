@@ -4,7 +4,7 @@ def divide_largest_by_smallest(arr):
 
     # Intentionally commented out to introduce bug
     # if smallest == 0:
-    #     return "FAIL: Division by zero"
+    #     return 0
 
     return largest / smallest
 
