@@ -1,32 +1,28 @@
 from typing import Sequence, Any, Callable, Optional, Type, Tuple, Dict, Union, Set, FrozenSet, List 
 from types import FrameType, TracebackType 
 
-def ddmin_random(test: Callable, inp: Sequence[Any], *test_args: Any) -> Sequence:
+def ddmin(test: Callable, inp: Sequence[Any], *test_args: Any) -> Sequence:
     """
     Reduce `inp` to a 1-minimal failing subset, using the outcome
     of `test(inp, *test_args)`, which should be `PASS`, `FAIL`, or `UNRESOLVED`.
     """
-    import random, sys
 
     PASS = 'PASS'
     FAIL = 'FAIL'
     UNRESOLVED = 'UNRESOLVED'
 
-    list = [] #Records all tested sets
-    list.append(inp)
     assert test(inp, *test_args) != PASS
 
+    n = 2  # Initial granularity
+    list = [] #Records all tested sets
     tests = 0 #Records the # of tests run
-    rand = random.randint(2, len(inp)) 
-    n = 2
-
     while len(inp) >= 2:
-        tests = tests + 1
-        start: int = random.randint(1, len(inp)-1)  # Where to start the next subset
+        start: int = 0  # Where to start the next subset
         subset_length: int = int(len(inp) / n)
         some_complement_is_failing: bool = False
 
         while start < len(inp):
+            tests = tests + 1
             # Cut out inp[start:(start + subset_length)]
             complement: Sequence[Any] = \
                 inp[:start] + inp[start + subset_length:]

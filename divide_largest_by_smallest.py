@@ -8,7 +8,7 @@ def divide_largest_by_smallest(arr):
 
     return largest / smallest
 
-def test_set_cap():
+def test_set_div():
     import random
 
     test_set = []
@@ -38,3 +38,5 @@ def test_set_cap():
     random.shuffle(test_set)
 
     return test_set, test_set_sparse
+
+    
