@@ -41,6 +41,7 @@ def ddmin_alt(test: Callable, inp: Sequence[Any], *test_args: Any) -> Sequence:
             list.append(complement) #Only add things that we test into the list, everything else doesn't matter
 
             if not revert:
+                tests += 1
                 remaining = len(inp)
                 c2: Sequence[Any] = \
                     inp[start + subset_length:] 
@@ -53,12 +54,11 @@ def ddmin_alt(test: Callable, inp: Sequence[Any], *test_args: Any) -> Sequence:
                 tested.append(c2)
 
                 if (test_cmp != test_inp):
-                    revert = 1
                     if(test_cmp == FAIL):
-                        inp = test_cmp
+                        inp = complement
                         break
                     else: 
-                        inp = test_inp
+                        inp = c2
                         break
                 else:
                     if (tests == max_tests): #Done with all possible tests, no hit
