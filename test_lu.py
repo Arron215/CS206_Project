@@ -114,7 +114,7 @@ def ddmin_hybrid(test: Callable, inp: Sequence[Any], *test_args: Any) -> Sequenc
 
     list = [] #Records all tested sets
     list.append(inp)
-    revert = 0
+    revert = len(inp)/2
     assert test(inp, *test_args) != PASS
 
     tests = 0 #Records the # of tests run
@@ -123,7 +123,7 @@ def ddmin_hybrid(test: Callable, inp: Sequence[Any], *test_args: Any) -> Sequenc
 
     while len(inp) >= 2:
         tests = tests + 1
-        if (revert):
+        if (len(inp) >= revert):
             start: int = random.randint(1, len(inp)-1)  # Where to start the next subset
         else: 
             start: int = 0
