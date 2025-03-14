@@ -280,7 +280,7 @@ def test_sanitize(test):
     ddmin_alt_test = ddmin_alt_test/len(test1)
     test_size = test_size/len(test1)
 
-    print("test_set")
+    print("\ntest_set")
     print("Avg # of tests ddmin: ", ddmin_test)
     print("Avg # of tests ddmin_random: ", ddmin_random_test)
     print("Avg # of tests ddmin_hybrid: ", ddmin_hybrid_test)

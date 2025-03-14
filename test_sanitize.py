@@ -10,6 +10,7 @@ def test_sanitize(test):
     ddmin_random_test = 0
     ddmin_hybrid_test = 0
     ddmin_alt_test = 0
+    
     for x in test:
         #print("\ninput: ", x)
         list = ddmin(sanitize, x)
@@ -42,6 +43,7 @@ def test_sanitize(test):
         #print(list[1])
 
         test_size = test_size + len(x)
+
     ddmin_test = ddmin_test/len(test1)
     ddmin_random_test = ddmin_random_test/len(test1)
     ddmin_hybrid_test = ddmin_hybrid_test/len(test1)
@@ -54,12 +56,12 @@ def test_sanitize(test):
     print("Avg # of tests ddmin_hybrid: ", ddmin_hybrid_test)
     print("Avg # of tests ddmin_alt: ", ddmin_alt_test)
     print("Avg elements in test: ", test_size)
+
     return ddmin_test, ddmin_random_test, ddmin_hybrid_test, ddmin_alt_test, test_size
 
 test = test_set_cap()
 test1 = test[0]
 test2 = test[1]
-list = []
 
 ddmin_test, ddmin_random_test, ddmin_hybrid_test, ddmin_alt_test, test_size = test_sanitize(test1)
 ddmin_test, ddmin_random_test, ddmin_hybrid_test, ddmin_alt_test, test_size = test_sanitize(test2)
