@@ -36,7 +36,7 @@ def ddmin_hybrid(test: Callable, inp: Sequence[Any], *test_args: Any) -> Sequenc
             
             list.append(complement) #Only add things that we test into the list, everything else doesn't matter
 
-            tests = test + 1
+            tests = tests + 1
             if test(complement, *test_args) == FAIL:
                 # Continue with reduced input
                 inp = complement
