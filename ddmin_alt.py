@@ -26,10 +26,9 @@ def ddmin_alt(test: Callable, inp: Sequence[Any], *test_args: Any) -> Sequence:
     n = 2
 
     while len(inp) >= 2:
-        tests = tests + 1
         if not revert:
             start: int = random.randint(1, len(inp)-1)  # Where to start the next subset
-        else: 
+        else:
             start: int = 0
         subset_length: int = int(len(inp) / n)
         some_complement_is_failing: bool = False
@@ -41,13 +40,14 @@ def ddmin_alt(test: Callable, inp: Sequence[Any], *test_args: Any) -> Sequence:
             list.append(complement) #Only add things that we test into the list, everything else doesn't matter
 
             if not revert:
-                tests += 1
                 remaining = len(inp)
                 c2: Sequence[Any] = \
                     inp[start + subset_length:] 
                 if (complement in tested) | (c2 in tested):
                     break
+                tests = tests + 2
                 list.append(c2)
+                list.append(complement)
                 test_cmp = test(complement, *test_args)
                 test_inp = test(c2 ,*test_args) 
                 tested.append(complement)
@@ -66,6 +66,7 @@ def ddmin_alt(test: Callable, inp: Sequence[Any], *test_args: Any) -> Sequence:
                     break
 
             if (revert):
+                tests = test + 1
                 if test(complement, *test_args) == FAIL:
                     # Continue with reduced input
                     inp = complement

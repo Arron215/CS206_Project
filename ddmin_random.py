@@ -21,7 +21,6 @@ def ddmin_random(test: Callable, inp: Sequence[Any], *test_args: Any) -> Sequenc
     n = 2
 
     while len(inp) >= 2:
-        tests = tests + 1
         start: int = random.randint(1, len(inp)-1)  # Where to start the next subset
         subset_length: int = int(len(inp) / n)
         some_complement_is_failing: bool = False
@@ -32,7 +31,8 @@ def ddmin_random(test: Callable, inp: Sequence[Any], *test_args: Any) -> Sequenc
                 inp[:start] + inp[start + subset_length:]
             
             list.append(complement) #Only add things that we test into the list, everything else doesn't matter 
-
+            tests = tests + 1
+            
             if test(complement, *test_args) == FAIL:
                 # Continue with reduced input
                 inp = complement
