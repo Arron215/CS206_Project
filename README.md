@@ -23,8 +23,6 @@ The prototypes developed were based on the original ddmin algorithm detailed by 
 
 *sanitize.py*: Toy function with generated test input set for experimenting.
 
-*test_lu.py*: 
-
 *test_sanitize.py*: Runs all DDMin iterations on the toy function.
 
 
