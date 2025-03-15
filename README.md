@@ -1,5 +1,5 @@
-# CS206 Project - Group Arron and Loi  
-**Exploring the Impact of Randomized Splitting Strategies on Delta Debugging**
+***CS206 Project - Group Arron and Loi***  
+# Exploring the Impact of Randomized Splitting Strategies on Delta Debugging
 
 This repo contains the prototype that were created for the project. The sanitize.py script is the toy function and includes a generated test input set. 
 
