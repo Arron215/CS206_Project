@@ -22,7 +22,6 @@ def ddmin_hybrid(test: Callable, inp: Sequence[Any], *test_args: Any) -> Sequenc
     n = 2
 
     while len(inp) >= 2:
-        tests = tests + 1
         if (len(inp) >= revert):
             start: int = random.randint(1, len(inp)-1)  # Where to start the next subset
         else: 
@@ -35,8 +34,9 @@ def ddmin_hybrid(test: Callable, inp: Sequence[Any], *test_args: Any) -> Sequenc
             complement: Sequence[Any] = \
                 inp[:start] + inp[start + subset_length:]
             
-            list.append(complement) #Only add things that we test into the list, everything else doesn't matter 
+            list.append(complement) #Only add things that we test into the list, everything else doesn't matter
 
+            tests = test + 1
             if test(complement, *test_args) == FAIL:
                 # Continue with reduced input
                 inp = complement
