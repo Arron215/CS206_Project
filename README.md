@@ -1,17 +1,23 @@
 ***CS206 Project - Group Arron and Loi***  
 # Exploring the Impact of Randomized Splitting Strategies on Delta Debugging
 
+## Overview
+
 This repo contains the prototype that were created for the project. The sanitize.py script is the toy function and includes a generated test input set. 
 
-The specific ddmin algorithms are split into different scripts to allow for easier testing. 
+The specific ddmin algorithms are split into different scripts to allow for easier testing.
+
+The prototypes developed were based on the original ddmin algorithm detailed by Zeller in The Debugging Book website. We have 2 control groups, ddmin and ddmin\_random. The ddmin algorithm is a copy of the one referenced in the website. Other implementations were available, but it felt correct to borrow the implementation created by the original author of ddmin. 
+
+## Usage Instruction
 
 To run the experiment, use the command
   ```bash
   python3 test_sanitize.py
   ```
-The prototypes developed were based on the original ddmin algorithm detailed by Zeller in The Debugging Book website. We have 2 control groups, ddmin and ddmin\_random. The ddmin algorithm is a copy of the one referenced in the website. Other implementations were available, but it felt correct to borrow the implementation created by the original author of ddmin. 
 
-**File Descriptions**
+
+## File Descriptions
 
 *ddmin.py*: Traditional DDMin algorithm implementation from Zeller.
 
