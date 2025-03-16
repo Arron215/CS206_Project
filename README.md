@@ -25,8 +25,6 @@ The prototypes developed were based on the original ddmin algorithm detailed by 
 
 *test_sanitize.py*: Runs all DDMin iterations on the toy function.
 
-*test_lu.py*: Deprecated function first made when developing everything. It is functionally the same as test_sanitize.py, but much less readable and contains outdated implementations. 
-
 
 
 
